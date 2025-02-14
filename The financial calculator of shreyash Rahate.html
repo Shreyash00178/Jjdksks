@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Calculator - Shreyash Rahate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #0062cc;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        .calculator {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .calculator input, .calculator select {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .calculator button {
+            background-color: #0062cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .calculator button:hover {
+            background-color: #004080;
+        }
+        .result {
+            background-color: #f8f8f8;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        footer {
+            background-color: #0062cc;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Financial Calculator</h1>
+    <p>Made with ❤️ by Shreyash Rahate</p>
+</header>
+
+<div class="container">
+    <!-- Loan EMI Calculator -->
+    <div class="calculator">
+        <h3>Loan EMI Calculator</h3>
+        <input type="number" id="loanAmount" placeholder="Loan Amount (₹)" />
+        <input type="number" id="interestRate" placeholder="Annual Interest Rate (%)" />
+        <input type="number" id="loanTenure" placeholder="Loan Tenure (years)" />
+        <button onclick="calculateLoan()">Calculate EMI</button>
+        <div id="loanResult" class="result"></div>
+    </div>
+
+    <!-- Fixed Deposit (FD) Calculator -->
+    <div class="calculator">
+        <h3>Fixed Deposit (FD) Calculator</h3>
+        <input type="number" id="fdAmount" placeholder="FD Amount (₹)" />
+        <input type="number" id="fdInterestRate" placeholder="Interest Rate (%)" />
+        <input type="number" id="fdTenure" placeholder="FD Tenure (years)" />
+        <button onclick="calculateFD()">Calculate FD</button>
+        <div id="fdResult" class="result"></div>
+    </div>
+
+    <!-- Recurring Deposit (RD) Calculator -->
+    <div class="calculator">
+        <h3>Recurring Deposit (RD) Calculator</h3>
+        <input type="number" id="rdMonthly" placeholder="Monthly Contribution (₹)" />
+        <input type="number" id="rdInterestRate" placeholder="Interest Rate (%)" />
+        <input type="number" id="rdTenure" placeholder="Tenure (months)" />
+        <button onclick="calculateRD()">Calculate RD</button>
+        <div id="rdResult" class="result"></div>
+    </div>
+
+    <!-- Income Tax Calculator -->
+    <div class="calculator">
+        <h3>Income Tax Calculator</h3>
+         <input id="income" class="input-field" type="number" placeholder="Income (₹)" />
+        <select id="taxRegime" class="input-field">
+            <option value="new">New Tax Regime</option>
+            <option value="old">Old Tax Regime</option>
+        </select>
+        <button onclick="calculateTax()">Calculate Tax</button>
+        <div id="taxResult" class="result"></div>
+    </div>
+
+    <!-- Retirement Planning Calculator -->
+    <div class="calculator">
+        <h3>Retirement Planning Calculator</h3>
+        <input type="number" id="currentAge" placeholder="Current Age" />
+        <input type="number" id="retirementAge" placeholder="Desired Retirement Age" />
+        <input type="number" id="retirementGoal" placeholder="Retirement Goal (₹)" />
+        <input type="number" id="currentSavings" placeholder="Current Savings (₹)" />
+        <input type="number" id="expectedReturn" placeholder="Expected Annual Return (%)" />
+        <button onclick="calculateRetirement()">Calculate Retirement</button>
+        <div id="retirementResult" class="result"></div>
+    </div>
+
+    <!-- Pension Planning Calculator -->
+    <div class="calculator">
+        <h3>Pension Planning Calculator</h3>
+        <input type="number" id="pensionMonthly" placeholder="Monthly Contribution (₹)" />
+        <input type="number" id="pensionInterest" placeholder="Annual Interest Rate (%)" />
+        <input type="number" id="pensionTenure" placeholder="Tenure (years)" />
+        <button onclick="calculatePension()">Calculate Pension</button>
+        <div id="pensionResult" class="result"></div>
+    </div>
+</div>
+
+<footer>
+    <p>Made with ❤️ by Shreyash Rahate</p>
+</footer>
+
+<script>
+// Loan EMI Calculation
+function calculateLoan() {
+    const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+    const interestRate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
+    const loanTenure = parseInt(document.getElementById('loanTenure').value) * 12;
+
+    if (!loanAmount || !interestRate || !loanTenure) {
+        document.getElementById('loanResult').innerHTML = "Please fill all fields.";
+        return;
+    }
+
+    const emi = (loanAmount * interestRate * Math.pow(1 + interestRate, loanTenure)) / (Math.pow(1 + interestRate, loanTenure) - 1);
+    document.getElementById('loanResult').innerHTML = `Your EMI is ₹${emi.toFixed(2)} per month.`;
+}
+
+// FD Calculation
+function calculateFD() {
+    const fdAmount = parseFloat(document.getElementById('fdAmount').value);
+    const fdInterestRate = parseFloat(document.getElementById('fdInterestRate').value) / 100;
+    const fdTenure = parseInt(document.getElementById('fdTenure').value);
+
+    if (!fdAmount || !fdInterestRate || !fdTenure) {
+        document.getElementById('fdResult').innerHTML = "Please fill all fields.";
+        return;
+    }
+
+    const maturityAmount = fdAmount * Math.pow(1 + fdInterestRate, fdTenure);
+    document.getElementById('fdResult').innerHTML = `Maturity Amount: ₹${maturityAmount.toFixed(2)}`;
+}
+
+// RD Calculation
+function calculateRD() {
+    const rdMonthly = parseFloat(document.getElementById('rdMonthly').value);
+    const rdInterestRate = parseFloat(document.getElementById('rdInterestRate').value) / 100;
+    const rdTenure = parseInt(document.getElementById('rdTenure').value);
+
+    if (!rdMonthly || !rdInterestRate || !rdTenure) {
+        document.getElementById('rdResult').innerHTML = "Please fill all fields.";
+        return;
+    }
+
+    const maturityAmount = rdMonthly * (((Math.pow(1 + rdInterestRate / 12, rdTenure) - 1) / (rdInterestRate / 12)) * (1 + rdInterestRate / 12));
+    document.getElementById('rdResult').innerHTML = `Maturity Amount: ₹${maturityAmount.toFixed(2)}`;
+}
+
+// Income Tax Calculation
+function calculateTax() {
+        let income = document.getElementById("income").value;
+        let taxRegime = document.getElementById("taxRegime").value;
+
+        if (!income) {
+            alert("Please fill all fields!");
+            return;
+        }
+
+        let tax = 0;
+
+        if (taxRegime === 'old') {
+            if (income <= 250000) tax = 0;
+            else if (income <= 500000) tax = (income - 250000) * 0.05;
+            else if (income <= 1000000) tax = 250000 * 0.05 + (income - 500000) * 0.1;
+            else if (income <= 1500000) tax = 250000 * 0.05 + 500000 * 0.1 + (income - 1000000) * 0.15;
+            else tax = 250000 * 0.05 + 500000 * 0.1 + 500000 * 0.15 + (income - 1500000) * 0.2;
+        } else {
+            if (income <= 250000) tax = 0;
+            else if (income <= 500000) tax = (income - 250000) * 0.05;
+            else if (income <= 750000) tax = 250000 * 0.05 + (income - 500000) * 0.1;
+            else if (income <= 1000000) tax = 250000 * 0.05 + 250000 * 0.1 + (income - 750000) * 0.15;
+            else if (income <= 1250000) tax = 250000 * 0.05 + 250000 * 0.1 + 250000 * 0.15 + (income - 1000000) * 0.2;
+            else if (income <= 1500000) tax = 250000 * 0.05 + 250000 * 0.1 + 250000 * 0.15 + 250000 * 0.2 + (income - 1250000) * 0.25;
+            else tax = 250000 * 0.05 + 250000 * 0.1 + 250000 * 0.15 + 250000 * 0.2 + 250000 * 0.25 + (income - 1500000) * 0.3;
+        }
+
+        document.getElementById("taxResult").innerHTML = `Income Tax: ₹${tax.toFixed(2)}`;
+    }
+
+// Retirement Planning Calculation
+function calculateRetirement() {
+    const currentAge = parseInt(document.getElementById('currentAge').value);
+    const retirementAge = parseInt(document.getElementById('retirementAge').value);
+    const retirementGoal = parseFloat(document.getElementById('retirementGoal').value);
+    const currentSavings = parseFloat(document.getElementById('currentSavings').value);
+    const expectedReturn = parseFloat(document.getElementById('expectedReturn').value) / 100;
+
+    if (!currentAge || !retirementAge || !retirementGoal || !currentSavings || !expectedReturn) {
+        document.getElementById('retirementResult').innerHTML = "Please fill all fields.";
+        return;
+    }
+
+    const yearsToRetirement = retirementAge - currentAge;
+    const futureValue = currentSavings * Math.pow(1 + expectedReturn, yearsToRetirement);
+    const amountNeeded = retirementGoal - futureValue;
+    const monthsToSave = yearsToRetirement * 12;
+    
+    if (amountNeeded > 0) {
+        const monthlySavings = amountNeeded / monthsToSave;
+        document.getElementById('retirementResult').innerHTML = `You need to save ₹${monthlySavings.toFixed(2)} per month to reach your retirement goal of ₹${retirementGoal}.`;
+    } else {
+        document.getElementById('retirementResult').innerHTML = `You are already on track for your retirement goal. You have ₹${futureValue.toFixed(2)} saved up.`;
+    }
+}
+
+// Pension Planning Calculation
+function calculatePension() {
+    const monthlyContribution = parseFloat(document.getElementById('pensionMonthly').value);
+    const annualInterestRate = parseFloat(document.getElementById('pensionInterest').value) / 100;
+    const tenure = parseInt(document.getElementById('pensionTenure').value);
+
+    if (!monthlyContribution || !annualInterestRate || !tenure) {
+        document.getElementById('pensionResult').innerHTML = "Please fill all fields.";
+        return;
+    }
+
+    // Calculate total corpus at the end of tenure
+    const monthlyInterestRate = annualInterestRate / 12;
+    const months = tenure * 12;
+    const futureValue = monthlyContribution * ((Math.pow(1 + monthlyInterestRate, months) - 1) / monthlyInterestRate) * (1 + monthlyInterestRate);
+
+    // Monthly pension payout (assuming a 4% withdrawal rate)
+    const monthlyPension = futureValue * 0.04 / 12;
+
+    document.getElementById('pensionResult').innerHTML = `Your total corpus at the end of the tenure will be ₹${futureValue.toFixed(2)}.<br/>The estimated monthly pension payout will be ₹${monthlyPension.toFixed(2)}.`;
+}
+</script>
+
+</body>
+</html>
